@@ -42,6 +42,8 @@ router.post("/register", async (req, res) => {
   } catch (e) {}
 });
 router.post("/login", async (req, res) => {
+  res.header('Access-Control-Allow-Origin: *')
+
   try {
     const { email, passward } = req.body;
     if (!email || !passward) {
