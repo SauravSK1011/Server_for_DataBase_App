@@ -79,9 +79,12 @@ router.post("/logout", async (req, res) => {
     } else {
       const ismatch = bcrypt.compare(passward, userexist.passward);
       const token = await userexist.generatetoken();
-      res.cookie("Token", token, {
-        httpOnly: true,
-      });
+      res.cookie("Token", token
+
+      // {
+        // httpOnly: true,
+      // }
+      );
       if (ismatch) {
         return res.status(201).send({ massage: "Welcome" });
       } else {
