@@ -39,7 +39,9 @@ router.post("/register", async (req, res) => {
     if (usersaved) {
       res.status(201).send("Account Created");
     }
-  } catch (e) {}
+  } catch (e) {
+    res.status(404).send("Error");
+  }
 });
 router.post("/login", async (req, res) => {
   res.header('Access-Control-Allow-Origin: http://localhost:3000')
