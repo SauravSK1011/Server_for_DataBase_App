@@ -8,7 +8,7 @@ dotenv.config({path:'./config.env'})
 
 app.use(require('./router/auth'))
 
-const port=process.env.port||3000;
+const port=process.env.PORT||3000;
 
 require("./Db/conn")
 app.get("/", (req, res) => {
