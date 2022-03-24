@@ -11,12 +11,15 @@ dotenv.config({path:'./config.env'})
 app.use(require('./router/auth'))
 const corsOptions = {
   origin: "http://localhost:3000",
+
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
-
+res.header('Access-Control-Allow-Origin: *')
 app.use(cors(corsOptions));
+
 const port=process.env.PORT||3000;
+
 
 require("./Db/conn")
 app.get("/", (req, res) => {
