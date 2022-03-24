@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
       res.status(201).send("Account Created");
     }
   } catch (e) {
-    res.status(404).send("Error");
+    res.status(404).send("Error"+e);
   }
 });
 router.post("/login", async (req, res) => {
