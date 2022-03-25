@@ -21,7 +21,7 @@ router.get("/contact", (req, res) => {
 router.post("/register", async (req, res) => {
   const { name, email, phone, work, passward, cpassward } = req.body;
   if (!name || !email || !phone || !work || !passward || !cpassward) {
-    res.status(422).send("Fill all fields");
+    res.status(412).send("Fill all fields");
   }
   try {
     const userexist = await User.findOne({ email: email });
