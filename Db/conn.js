@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const DB =process.env.DB;
 
 mongoose
-  .connect("mongodb+srv://ssk:sauravsk@cluster0.jwwkv.mongodb.net/mernstack?retryWrites=true&w=majority", {
+  .connect(DB, {
   })
   .then(() => {
     console.log("connected");
