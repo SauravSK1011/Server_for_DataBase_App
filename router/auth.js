@@ -61,7 +61,7 @@ router.post("/login", async (req, res) => {
         httpOnly: true,
       });
       if (ismatch) {
-        return res.status(201).send({ massage: "Welcome" });
+        return res.status(201).send("Welcome");
       } else {
         return res.status(401).send({ errer: "Invalid credentials" });
       }
