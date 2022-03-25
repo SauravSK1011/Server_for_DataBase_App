@@ -71,32 +71,32 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/logout", async (req, res) => {
-  try {
-    const { email, passward } = req.body;
-    if (!email || !passward) {
-      res.status(422).send("Fill all fields");
-    }
-    const userexist = await User.findOne({ email: email });
-    if (!userexist) {
-      return res.status(422).send({ errer: "Invalid credentials" });
-    } else {
-      const ismatch = bcrypt.compare(passward, userexist.passward);
-      const token = await userexist.generatetoken();
-      res.cookie("Token", token
+// router.post("/logout", async (req, res) => {
+//   try {
+//     const { email, passward } = req.body;
+//     if (!email || !passward) {
+//       res.status(422).send("Fill all fields");
+//     }
+//     const userexist = await User.findOne({ email: email });
+//     if (!userexist) {
+//       return res.status(422).send({ errer: "Invalid credentials" });
+//     } else {
+//       const ismatch = bcrypt.compare(passward, userexist.passward);
+//       const token = await userexist.generatetoken();
+//       res.cookie("Token", token
 
-      // {
-        // httpOnly: true,
-      // }
-      );
-      if (ismatch) {
-        return res.status(201).send({ massage: "Welcome" });
-      } else {
-        return res.status(401).send({ errer: "Invalid credentials" });
-      }
-    }
-  } catch (e) {
-    res.send(e);
-  }
-});
+//       // {
+//         // httpOnly: true,
+//       // }
+//       );
+//       if (ismatch) {
+//         return res.status(201).send({ massage: "Welcome" });
+//       } else {
+//         return res.status(401).send({ errer: "Invalid credentials" });
+//       }
+//     }
+//   } catch (e) {
+//     res.send(e);
+//   }
+// });
 module.exports = router;
