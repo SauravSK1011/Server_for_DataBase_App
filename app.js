@@ -1,9 +1,11 @@
 const dotenv=require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
+const morgan = require("morgan");
+
 
 const app = express();
+app.use(morgan('dev'));
 
 app.use(express.json());
 dotenv.config({path:'./config.env'})

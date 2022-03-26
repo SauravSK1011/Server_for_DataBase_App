@@ -40,22 +40,25 @@ const userScama = new mongoose.Schema({
 });
 
 userScama.pre("save", async function (next) {
-  console.log("Hi");
-  // if (!this.isModified('password')) {  console.log("Hi")
-  // return next();}
+  // console.log("Hi");
+  if (this.isModified("passward")) {
+    this.passward = await bcrypt.hash(this.passward, 12);
+    this.cpassward = await bcrypt.hash(this.cpassward, 12);
+    return next();
 
-  this.passward = await bcrypt.hash(this.passward, 12);
-  this.cpassward = await bcrypt.hash(this.cpassward, 12);
-  // }
+  }
   next();
 });
+
 userScama.methods.generatetoken = async function () {
   try {
     const token = jwt.sign({ _id: this._id }, process.env.SECRET_KEY);
-    this.tokens=this.tokens.concat({token:token});
+    this.tokens = this.tokens.concat({ token: token });
     await this.save();
     return token;
-  } catch (e) {console.log(e)}
+  } catch (e) {
+    console.log(e);
+  }
 };
 const User = mongoose.model("USER", userScama);
 module.exports = User;
