@@ -137,7 +137,7 @@ router.post("/addaddress", async (req, res) => {
           },
         }
       );
-      return res.status(201).json({ Massage: "Update Done", Data: userexist });
+      return res.status(201).json({ Massage: "Done", Data: userexist });
 
     } catch (e) {
       console.log(e);
