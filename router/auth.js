@@ -19,8 +19,10 @@ router.get("/contact", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { name, email, phone, work, passward, cpassward } = req.body;
-  if (!name || !email || !phone || !work || !passward || !cpassward) {
+  const { name, email, phone, work, passward, cpassward, address } = req.body;
+  if (
+    (!name || !email || !phone || !work || !passward || !cpassward, !address)
+  ) {
     res.status(412).send("Fill all fields");
   }
   try {
@@ -33,7 +35,15 @@ router.post("/register", async (req, res) => {
       return res.status(422).send({ errer: "Password does not matched" });
     }
 
-    const user = new User({ name, email, phone, work, passward, cpassward });
+    const user = new User({
+      name,
+      email,
+      phone,
+      work,
+      passward,
+      cpassward,
+      address,
+    });
 
     const usersaved = await user.save();
     if (usersaved) {
@@ -43,6 +53,7 @@ router.post("/register", async (req, res) => {
     res.status(404).send("Error" + e);
   }
 });
+
 router.post("/login", async (req, res) => {
   // res.header('Access-Control-Allow-Origin: http://localhost:3000')
 
@@ -72,7 +83,7 @@ router.post("/login", async (req, res) => {
         userexist.tokens = userexist.tokens.concat({ token: token });
         await userexist.save();
 
-        return res.status(201).json({Massage:"Welcome",Data:userexist});
+        return res.status(201).json({ Massage: "Welcome", Data: userexist });
       } else {
         return res.status(401).send("Invalid credentials");
       }
@@ -81,4 +92,61 @@ router.post("/login", async (req, res) => {
     res.send(e);
   }
 });
+router.post("/update", async (req, res) => {
+  const { name, email, phone, work } = req.body;
+  if (!name || !email || !phone || !work) {
+    res.status(412).send("Fill all fields");
+  }
+  try {
+    const userexist = await User.findOne({ email: email });
+    const result = await User.findByIdAndUpdate(
+      { _id: userexist._id },
+      {
+        $set: {
+          name: name,
+          phone: phone,
+          work: work,
+        },
+      }
+    );
+
+    console.log(result);
+    return res.status(201).json({ Massage: "Update Done", Data: userexist });
+
+  } catch (e) {
+    res.status(404).send("Error" + e);
+  }
+});
+router.post("/addaddress", async (req, res) => {
+  // res.header('Access-Control-Allow-Origin: http://localhost:3000')
+
+  try {
+    const { email, address } = req.body;
+
+    // let ismatch = false;
+    if (!email || !address) {
+      res.status(422).send("Fill all fields");
+    }
+    const userexist = await User.findOne({ email: email });
+    try {
+      const result = await User.findByIdAndUpdate(
+        { _id: userexist._id },
+        {
+          $set: {
+            address: address,
+          },
+        }
+      );
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+
+      return res.status(201).json({ Massage: "Done", Data: userexist });
+    }
+  } catch (e) {
+    console.log(e);
+    res.send(e);
+  }
+});
+
 module.exports = router;

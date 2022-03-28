@@ -29,6 +29,9 @@ const userScama = new mongoose.Schema({
     type: String,
     required: true,
   },
+  address: {
+    type: String,
+  },
   tokens: [
     {
       token: {
@@ -37,6 +40,7 @@ const userScama = new mongoose.Schema({
       },
     },
   ],
+  
 });
 
 userScama.pre("save", async function (next) {
