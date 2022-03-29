@@ -1,28 +1,18 @@
-const dotenv=require("dotenv");
+const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
-
 const app = express();
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 app.use(express.json());
-dotenv.config({path:'./config.env'})
+dotenv.config({ path: "./config.env" });
 
-app.use(require('./router/auth'))
-// const corsOptions = {
-//   origin: "http://localhost:3000",
+app.use(require("./router/auth"));
+const port = process.env.PORT || 3000;
 
-//   credentials: true, //access-control-allow-credentials:true
-//   optionSuccessStatus: 200,
-// };
-// app.use(cors(corsOptions));
-
-const port=process.env.PORT||3000;
-
-
-require("./Db/conn")
+require("./Db/conn");
 app.get("/", (req, res) => {
   res.send("Hi");
 });

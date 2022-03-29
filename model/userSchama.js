@@ -40,16 +40,13 @@ const userScama = new mongoose.Schema({
       },
     },
   ],
-  
 });
 
 userScama.pre("save", async function (next) {
-  // console.log("Hi");
   if (this.isModified("passward")) {
     this.passward = await bcrypt.hash(this.passward, 12);
     this.cpassward = await bcrypt.hash(this.cpassward, 12);
     return next();
-
   }
   next();
 });

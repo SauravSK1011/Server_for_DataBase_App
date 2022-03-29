@@ -27,7 +27,6 @@ router.post("/register", async (req, res) => {
   }
   try {
     const userexist = await User.findOne({ email: email });
-    // console.log(userexist.email);
     if (userexist) {
       return res.status(422).send({ errer: "User Already Exist" });
     }
@@ -55,8 +54,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  // res.header('Access-Control-Allow-Origin: http://localhost:3000')
-
   try {
     const { email, passward } = req.body;
 
@@ -109,21 +106,16 @@ router.post("/update", async (req, res) => {
         },
       }
     );
-
-    console.log(result);
-    return res.status(201).json({ Massage: "Update Done", Data: userexist });
+    const updateduser = await User.findOne({ email: email });
+    return res.status(201).json({ Massage: "Update Done", Data: updateduser });
 
   } catch (e) {
     res.status(404).send("Error" + e);
   }
 });
 router.post("/addaddress", async (req, res) => {
-  // res.header('Access-Control-Allow-Origin: http://localhost:3000')
-
   try {
     const { email, address } = req.body;
-
-    // let ismatch = false;
     if (!email || !address) {
       res.status(422).send("Fill all fields");
     }
@@ -137,12 +129,13 @@ router.post("/addaddress", async (req, res) => {
           },
         }
       );
-      return res.status(201).json({ Massage: "Done", Data: userexist });
+      const updateduser = await User.findOne({ email: email });
+      return res.status(201).json({ Massage: "Done", Data: updateduser });
 
     } catch (e) {
       console.log(e);
 
-      return res.status(201).json({ Massage: "Done", Data: userexist });
+      return res.status(401).json({ Massage: "ERROR", Data: userexist });
     }
   } catch (e) {
     console.log(e);
